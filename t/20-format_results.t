@@ -10,13 +10,34 @@ use POSIX qw();
 use Scalar::Util;
 use Test::Exception;
 use Test::FailWarnings -allow_deps => 1;
-use Test::More tests => 11;
+use Test::More tests => 13;
 
+
+# Check if POSIX::tzset() exists on the current architecture. Strawberry Perl
+# in particular seems to be missing it.
+my $has_tzset = can_ok(
+	'POSIX',
+	'tzset',
+);
 
 # Override the timezone to be able to format the event's date and have a
 # consistent, testable output.
-$ENV{'TZ'} = 'America/New_York';
-POSIX::tzset();
+SKIP:
+{
+	skip(
+		'POSIX::tzset() is not available, cannot set timezone.',
+		1,
+	) if !$has_tzset;
+	
+	lives_ok(
+		sub
+		{
+			$ENV{'TZ'} = 'America/New_York';
+			POSIX::tzset();
+		},
+		'Set timezone to America/New_York.',
+	);
+}
 
 # Verify that the function can be called.
 can_ok(
@@ -102,19 +123,28 @@ is(
 my $event = $results->[0];
 is(
 	$event->{'diff_formatted'},
-	'{<br/>&nbsp;&nbsp;new&nbsp;=&gt;&nbsp;&#39;string2&#39;,<br/>&nbsp;&nbsp;old&nbsp;=&gt;&nbsp;&#39;string1&#39;<br/>}<br/>',
+	'{&nbsp;new&nbsp;=&gt;&nbsp;&quot;string2&quot;,&nbsp;old&nbsp;=&gt;&nbsp;&quot;string1&quot;&nbsp;}',
 	'The diff is formatted correctly.',
 );
 is(
 	$event->{'information_formatted'},
-	'{<br/>&nbsp;&nbsp;key1&nbsp;=&gt;&nbsp;&#39;value1&#39;,<br/>&nbsp;&nbsp;key2&nbsp;=&gt;&nbsp;&#39;value2&#39;<br/>}<br/>',
+	'{&nbsp;key1&nbsp;=&gt;&nbsp;&quot;value1&quot;,&nbsp;key2&nbsp;=&gt;&nbsp;&quot;value2&quot;&nbsp;}',
 	'The information is formatted correctly.',
 );
-is(
-	$event->{'event_time_formatted'},
-	'2012-09-07 20:14:21',
-	'The event time is formatted correctly.',
-);
+
+SKIP:
+{
+	skip(
+		'POSIX::tzset() is not available, cannot verify time formatting.',
+		1,
+	) if !$has_tzset;
+	
+	is(
+		$event->{'event_time_formatted'},
+		'2012-09-07 20:14:21',
+		'The event time is formatted correctly.',
+	);
+}
 
 
 # Subclass DBI::db and override do() to make it inactive.
