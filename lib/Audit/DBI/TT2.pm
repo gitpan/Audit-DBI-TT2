@@ -18,11 +18,11 @@ Audit::DBI::TT2 - A Template Toolkit plugin to display audit events recorded by 
 
 =head1 VERSION
 
-Version 2.2.4
+Version 2.2.5
 
 =cut
 
-our $VERSION = '2.2.4';
+our $VERSION = '2.2.5';
 
 
 =head1 SYNOPSIS
@@ -31,7 +31,7 @@ In your Perl code:
 
 	use Audit::DBI::TT2;
 	use Template;
-	
+
 	my $template = Template->new(
 		{
 			PLUGINS =>
@@ -88,7 +88,7 @@ Format the following fields for display as HTML:
 sub format_results
 {
 	my ( $self, $results ) = @_;
-	
+
 	foreach my $result ( @$results )
 	{
 		$result->{information_formatted} = html_dumper( $result->get_information() );
@@ -98,7 +98,7 @@ sub format_results
 			POSIX::localtime( $result->{event_time} ),
 		);
 	}
-	
+
 	return $results;
 }
 
@@ -116,19 +116,14 @@ sub html_dumper
 	my ( $data ) = @_;
 	return undef
 		if !defined( $data );
-	
+
 	my $string = Data::Dump::dump( $data );
 	$string = HTML::Entities::encode_entities( $string );
 	$string =~ s/ /&nbsp;/g;
 	$string =~ s/\n/<br\/>/g;
-	
+
 	return $string;
 }
-
-
-=head1 AUTHOR
-
-Guillaume Aubert, C<< <aubertg at cpan.org> >>.
 
 
 =head1 BUGS
@@ -169,16 +164,20 @@ L<https://metacpan.org/release/Audit-DBI-TT2>
 =back
 
 
+=head1 AUTHOR
+
+L<Guillaume Aubert|https://metacpan.org/author/AUBERTG>, C<< <aubertg at cpan.org> >>.
+
+
 =head1 ACKNOWLEDGEMENTS
 
-Thanks to ThinkGeek (L<http://www.thinkgeek.com/>) and its corporate overlords
-at Geeknet (L<http://www.geek.net/>), for footing the bill while I write code
-for them!
+I originally developed this project for ThinkGeek
+(L<http://www.thinkgeek.com/>). Thanks for allowing me to open-source it!
 
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2010-2013 Guillaume Aubert.
+Copyright 2010-2014 Guillaume Aubert.
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License version 3 as published by the Free

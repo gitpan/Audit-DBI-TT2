@@ -4,9 +4,9 @@
       "Guillaume Aubert <aubertg@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4005, CPAN::Meta::Converter version 2.131560",
+   "generated_by" : "Module::Build version 0.4205",
    "license" : [
-      "open_source"
+      "gpl_3"
    ],
    "meta-spec" : {
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
@@ -44,7 +44,7 @@
    "provides" : {
       "Audit::DBI::TT2" : {
          "file" : "lib/Audit/DBI/TT2.pm",
-         "version" : "v2.2.4"
+         "version" : "v2.2.5"
       }
    },
    "release_status" : "stable",
@@ -60,5 +60,5 @@
          "url" : "https://github.com/guillaumeaubert/Audit-DBI-TT2"
       }
    },
-   "version" : "v2.2.4"
+   "version" : "v2.2.5"
 }

@@ -1,8 +1,8 @@
 /**
- * Audit::DBI::TT2 v2.2.4
+ * Audit::DBI::TT2 v2.2.5
  * https://metacpan.org/release/Audit-DBI
  *
- * Copyright 2010-2013 Guillaume Aubert
+ * Copyright 2010-2014 Guillaume Aubert
  */
 
 html {
@@ -33,7 +33,7 @@ html {
 	padding: 6px 0px;
 	overflow:auto;
 }
-#criteria .row div 
+#criteria .row div
 {
 	float: left;
 }
